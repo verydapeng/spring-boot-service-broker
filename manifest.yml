@@ -3,4 +3,4 @@ applications:
 - name: broker
   random-route: true
   buildpack: https://github.com/cloudfoundry/java-buildpack
-  path: target/broker-0.0.1-SNAPSHOT.jar
+  path: target/broker.jar

@@ -11,12 +11,7 @@
           "name": "small",
           "description": "a a b b c c "
         }
-      ],
-      "dashboard_client": {
-        "id": "client-id-1",
-        "secret": "secret-1",
-        "redirect_uri": "https://dashboard.service.com"
-      }
+      ]
     }
   ]
 }
