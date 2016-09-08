@@ -1,0 +1,22 @@
+{
+  "services": [
+    {
+      "id": "service-guid-here",
+      "name": "myservice",
+      "description": "bla bla bla",
+      "bindable": true,
+      "plans": [
+        {
+          "id": "plan1-guid-here",
+          "name": "small",
+          "description": "a a b b c c "
+        }
+      ],
+      "dashboard_client": {
+        "id": "client-id-1",
+        "secret": "secret-1",
+        "redirect_uri": "https://dashboard.service.com"
+      }
+    }
+  ]
+}
