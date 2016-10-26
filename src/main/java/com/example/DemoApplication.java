@@ -1,8 +1,11 @@
 package com.example;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.io.InputStreamResource;
@@ -10,9 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 @SpringBootApplication
 @RestController
@@ -25,9 +33,30 @@ public class DemoApplication {
         SpringApplication.run(DemoApplication.class, args);
     }
 
+    @Value("${VCAP_APPLICATION:}")
+    String vcapApplication;
+
+    String catalog;
+
+    @PostConstruct
+    void init() throws IOException {
+
+        String guid;
+
+        try {
+            guid = Objects.toString(new ObjectMapper().readValue(vcapApplication, Map.class).get("application_id"));
+        } catch (IOException e) {
+            logger.error("VCAP_APPLICATION is not set properly, using fallback", e);
+            guid = UUID.randomUUID().toString();
+        }
+
+        catalog = IOUtils.toString(getClass().getResourceAsStream("/catalog.json"), StandardCharsets.UTF_8)
+                .replaceAll("\\{\\{GUID\\}\\}", guid);
+    }
+
     @RequestMapping(value = "catalog")
     Object catalog() {
-        return new InputStreamResource(getClass().getResourceAsStream("/catalog.json"));
+        return catalog;
     }
 
     @RequestMapping("service_instances/{id}")

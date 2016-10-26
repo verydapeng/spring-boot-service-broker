@@ -1,13 +1,13 @@
 {
   "services": [
     {
-      "id": "service-guid-here",
-      "name": "myservice",
+      "id": "service-{{GUID}}",
+      "name": "myservice-{{GUID}}",
       "description": "bla bla bla",
       "bindable": true,
       "plans": [
         {
-          "id": "plan1-guid-here",
+          "id": "plan1-{{GUID}}",
           "name": "small",
           "description": "a a b b c c "
         }
