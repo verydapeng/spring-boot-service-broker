@@ -4,11 +4,18 @@ Simple cloud foundry service broker written in springboot
 
 # to deploy 
 
+Deploy the broker 
 ```mvn package && cf push```
 
-```cf create-service-broker myservice-broker user pass https://broker-{aaa-bbb}.cfapps.io --space-scoped```
+Register the broker 
+```cf create-service-broker myservice-broker user pass http://{COPY_BROKER_URL_HERE}.cfapps.io/ --space-scoped```
 
-```cf cs myservice small myservice-instance-1```
+Get the service name 
+```cf m```
 
+Create service instance
+```cf cs myservice-{COPY_UUID} small myservice-instance-1```
+
+Bind service instance
 ```cf bs {my-app} myservice-instance-1```
 
